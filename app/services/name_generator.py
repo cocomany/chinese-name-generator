@@ -18,10 +18,8 @@ def generate_chinese_name(gender, preferences, english_name=''):
         prompt_parts = ["""请你作为一个专业的中文起名专家，为一个外国人生成3个不同的独特中文名字。
 
 要求：
-1. 名字发音与英文名相近, 要响亮、寓意好、易记
-2. 要考虑中国传统文化内涵
-3. 名字长度2-5个字
-4. 名字要通俗易懂，不要过于深奥，不需要文采。避免生僻字
+1. 名字发音与英文名相近, 要简洁、寓意好、易记
+3. 名字长度二到四个字
 5. 特别有中国特色，包括但不限于中国的古语，地名，诗词，物件，历史人物，传说故事等
 6. 这3个名字必须完全不同，要有各自的特色！"""]
         
@@ -84,12 +82,20 @@ def generate_chinese_name(gender, preferences, english_name=''):
         print(f"API输出内容: {response['output']}")
         
         try:
-            # 去掉API响应中的```json```标记
-            json_text = response['output']['text'].replace('```json', '').replace('```', '').strip()
-            result = json.loads(json_text)
+            # 提取JSON内容 - 更健壮的方式处理markdown格式
+            json_text = response['output']['text']
+            # 找到JSON内容的起始和结束位置
+            start = json_text.find('{')
+            end = json_text.rfind('}') + 1
+            if start == -1 or end == 0:
+                raise ValueError("未找到有效的JSON内容")
+            
+            # 只提取JSON部分
+            json_content = json_text[start:end]
+            result = json.loads(json_content)
             print(f"解析后的结果: {json.dumps(result, ensure_ascii=False, indent=2)}")
         except json.JSONDecodeError as e:
-            print(f"JSON解析失败，原始内容: {response['output']['text']}")
+            print(f"JSON解析失败，提取的内容: {json_content}")
             raise ValueError(f"API返回的JSON格式无效: {str(e)}")
             
         # 验证返回的数据结构
