@@ -23,10 +23,18 @@
             margin-bottom: 3rem;
             color: #2c3e50;
         }
-        .title-section h1,h2,h3 {
+        .title-section h1 {
             font-size: 2.5rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
+            background: linear-gradient(120deg, #2c3e50, #3498db);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .title-section h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.1rem;
             background: linear-gradient(120deg, #2c3e50, #3498db);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -143,7 +151,7 @@
 <body>
     <div class="main-container">
         <div class="title-section">
-            <h3>Got a Chinese Name</h3>
+            <h1>Got a Chinese Name</h1>
             <p class="text-muted">中国名字生成器</p>
         </div>
 
@@ -194,7 +202,7 @@
 
         <div id="resultCard" class="card d-none">
             <div class="card-body p-4">
-                <h3 class="text-center mb-4">您的候选中文名字 | Your Chinese Name Options</h3>
+                <h3 class="text-center mb-4">Pick Your Chinese Name | 您的候选中文名字</h3>
                 <div class="row g-4">
                     <div class="col-md-4">
                         <div class="name-option">
@@ -204,7 +212,7 @@
                             <p id="englishMeaning1" class="text-muted mb-3"></p>
                             <div class="text-center">
                                 <button class="btn btn-outline-primary" onclick="playAudio(1)">
-                                    <i class="fas fa-volume-up me-1"></i> 试听
+                                    <i class="fas fa-volume-up me-1"></i> Listen
                                 </button>
                             </div>
                         </div>
@@ -217,7 +225,7 @@
                             <p id="englishMeaning2" class="text-muted mb-3"></p>
                             <div class="text-center">
                                 <button class="btn btn-outline-primary" onclick="playAudio(2)">
-                                    <i class="fas fa-volume-up me-1"></i> 试听
+                                    <i class="fas fa-volume-up me-1"></i> Listen
                                 </button>
                             </div>
                         </div>
@@ -230,7 +238,7 @@
                             <p id="englishMeaning3" class="text-muted mb-3"></p>
                             <div class="text-center">
                                 <button class="btn btn-outline-primary" onclick="playAudio(3)">
-                                    <i class="fas fa-volume-up me-1"></i> 试听
+                                    <i class="fas fa-volume-up me-1"></i> Listen
                                 </button>
                             </div>
                         </div>

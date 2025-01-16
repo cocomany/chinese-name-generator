@@ -1,6 +1,7 @@
 import os
 import time
 import json
+import glob
 import dashscope
 from dashscope.audio.tts import SpeechSynthesizer
 from config import Config
@@ -12,6 +13,26 @@ def ensure_audio_folder_exists():
     audio_folder = os.path.join('app', 'static', 'audio')
     os.makedirs(audio_folder, exist_ok=True)
     return audio_folder
+
+def cleanup_old_audio_files(hours=1):
+    """清理指定小时数之前的音频文件"""
+    try:
+        current_time = time.time()
+        audio_folder = ensure_audio_folder_exists()
+        # 获取所有wav文件
+        pattern = os.path.join(audio_folder, 'speech_*.wav')
+        for file_path in glob.glob(pattern):
+            try:
+                # 获取文件修改时间
+                file_mtime = os.path.getmtime(file_path)
+                # 如果文件超过指定时间
+                if current_time - file_mtime > hours * 3600:
+                    os.remove(file_path)
+                    print(f"已删除旧音频文件: {file_path}")
+            except Exception as e:
+                print(f"删除文件 {file_path} 时出错: {str(e)}")
+    except Exception as e:
+        print(f"清理音频文件时出错: {str(e)}")
 
 # 确保音频文件夹存在
 AUDIO_FOLDER = ensure_audio_folder_exists()
@@ -36,6 +57,9 @@ def synthesize_speech(text, gender=''):
     使用阿里云通义千问语音合成服务生成语音
     """
     try:
+        # 先清理旧文件
+        cleanup_old_audio_files()
+        
         # 根据性别选择音色
         voice_config = VOICE_CONFIG['female'] if gender == 'female' else VOICE_CONFIG['male']
         

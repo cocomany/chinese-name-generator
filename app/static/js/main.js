@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const preferences = document.getElementById('preferences').value;
 
             // 发送请求
-            const response = await fetch('/generate', {
+            const response = await fetch('/api/generate_name', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -74,7 +74,8 @@ async function playAudio(index) {
         playBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 加载中...';
         
         const chineseName = document.getElementById(`chineseName${index}`).textContent;
-        const response = await fetch(`/audio/${encodeURIComponent(chineseName)}`);
+        const gender = document.querySelector('input[name="gender"]:checked').value;
+        const response = await fetch(`/audio/${encodeURIComponent(chineseName)}?gender=${gender}`);
         
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
