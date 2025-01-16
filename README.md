@@ -18,7 +18,7 @@
 - UI框架：Bootstrap 5
 - AI服务：阿里云通义千问 + 语音合成服务
 
-## 本地开发
+## 快速开始
 
 1. 克隆项目
 ```bash
@@ -42,97 +42,36 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-4. 配置环境变量
-创建 `.env` 文件并填入以下内容：
-```env
-SECRET_KEY=your-secret-key-here
-DASHSCOPE_API_KEY=your-dashscope-api-key
+4. 配置环境变量（重要！）
+```bash
+# 复制环境变量模板
+cp .env.example .env
+
+# 编辑.env文件，填入你的API密钥
+# 必须配置DASHSCOPE_API_KEY，否则无法使用！
 ```
 
-5. 运行开发服务器
+5. 运行应用
 ```bash
 python run.py
 ```
 
 访问 http://localhost:5000 即可使用应用。
 
-## 部署指南
-
-### 使用 Docker 部署
-
-1. 构建镜像
-```bash
-docker build -t chinese-name-generator .
+## 项目结构
 ```
-
-2. 运行容器
-```bash
-docker run -d -p 8000:8000 \
-  -e SECRET_KEY=your-secret-key \
-  -e DASHSCOPE_API_KEY=your-api-key \
-  chinese-name-generator
-```
-
-### 使用 Nginx + Gunicorn 部署
-
-1. 安装 Gunicorn
-```bash
-pip install gunicorn
-```
-
-2. 创建 Gunicorn 配置文件 `gunicorn.conf.py`
-```python
-workers = 4
-bind = '127.0.0.1:8000'
-```
-
-3. 配置 Nginx
-```nginx
-server {
-    listen 80;
-    server_name your-domain.com;
-
-    location / {
-        proxy_pass http://127.0.0.1:8000;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-    }
-
-    location /static {
-        alias /path/to/your/app/static;
-    }
-}
-```
-
-4. 启动应用
-```bash
-gunicorn -c gunicorn.conf.py run:app
-```
-
-### 使用 Supervisor 管理进程
-
-1. 安装 Supervisor
-```bash
-apt-get install supervisor  # Ubuntu/Debian
-```
-
-2. 创建配置文件 `/etc/supervisor/conf.d/chinese-name-generator.conf`
-```ini
-[program:chinese-name-generator]
-directory=/path/to/your/app
-command=/path/to/venv/bin/gunicorn -c gunicorn.conf.py run:app
-user=www-data
-autostart=true
-autorestart=true
-stderr_logfile=/var/log/chinese-name-generator/err.log
-stdout_logfile=/var/log/chinese-name-generator/out.log
-```
-
-3. 更新并启动服务
-```bash
-supervisorctl reread
-supervisorctl update
-supervisorctl start chinese-name-generator
+chinese_name_generator/
+├── app/
+│   ├── __init__.py          # 应用初始化
+│   ├── routes.py            # 路由处理
+│   ├── models/              # 数据模型
+│   ├── services/            # 业务服务
+│   ├── templates/           # HTML模板
+│   └── static/              # 静态文件
+├── config.py                # 配置文件
+├── requirements.txt         # 依赖包
+├── .env.example            # 环境变量模板
+└── run.py                  # 启动文件
 ```
 
 ## 管理后台
@@ -145,38 +84,18 @@ supervisorctl start chinese-name-generator
 - 性别比例分析
 - 24小时访问量统计
 
-## 项目结构
-```
-chinese_name_generator/
-├── app/
-│   ├── __init__.py          # 应用初始化
-│   ├── routes.py            # 路由处理
-│   ├── models/              # 数据模型
-│   │   ├── __init__.py
-│   │   └── record.py
-│   ├── services/            # 业务服务
-│   │   ├── __init__.py
-│   │   ├── name_generator.py
-│   │   └── tts_service.py
-│   ├── templates/           # HTML模板
-│   │   ├── index.html
-│   │   └── admin.html
-│   └── static/              # 静态文件
-│       ├── css/
-│       ├── js/
-│       └── audio/
-├── config.py                # 配置文件
-├── requirements.txt         # 依赖包
-└── run.py                   # 启动文件
-```
-
 ## 注意事项
 
-1. 需要阿里云账号和通义千问API密钥
-2. 确保Python版本 >= 3.8
-3. 音频文件会临时存储在 `app/static/audio` 目录
-4. 建议定期清理音频文件
-5. 生产环境部署时请修改管理后台密码
+1. **必须配置环境变量**：
+   - 复制 `.env.example` 到 `.env`
+   - 在 `.env` 中填入你的通义千问API密钥
+   - 没有API密钥？访问[阿里云通义千问](https://dashscope.aliyun.com/)控制台申请
+
+2. 其他注意事项：
+   - 确保Python版本 >= 3.8
+   - 音频文件会临时存储在 `app/static/audio` 目录
+   - 建议定期清理音频文件
+   - 生产环境部署时请修改管理后台密码
 
 ## 开发计划
 
@@ -185,7 +104,6 @@ chinese_name_generator/
 - [ ] 添加名字历史记录功能
 - [ ] 支持导出名字卡片
 - [ ] 添加更多语音合成声音选项
-- [ ] 支持Docker容器化部署
 - [ ] 添加API文档
 - [ ] 优化数据库性能
 - [ ] 添加单元测试
