@@ -89,6 +89,7 @@ chinese_name_generator/
 1. **必须配置环境变量**：
    - 复制 `.env.example` 到 `.env`
    - 在 `.env` 中填入你的通义千问API密钥
+   - 可选：修改 `ADMIN_PASSWORD` 来自定义管理后台密码（默认：hao123）
    - 没有API密钥？访问[阿里云通义千问](https://dashscope.aliyun.com/)控制台申请
 
 2. 其他注意事项：

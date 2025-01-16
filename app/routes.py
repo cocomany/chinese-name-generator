@@ -3,10 +3,12 @@ from app import db
 from app.models.record import NameRecord, add_record, get_records, get_stats
 from app.services.name_generator import generate_chinese_name
 from app.services.tts_service import generate_audio
+from config import Config
 
 main = Blueprint('main', __name__)
 
-ADMIN_PASSWORD = 'hao123'  # 管理页面密码
+# 从配置中获取管理密码
+ADMIN_PASSWORD = Config.ADMIN_PASSWORD
 
 @main.route('/')
 def index():

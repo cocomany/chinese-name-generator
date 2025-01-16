@@ -3,10 +3,12 @@ from services.name_generator import generate_names
 from services.tts_service import generate_audio
 from models.record import init_db, add_record, get_records, get_stats
 import os
+from config import Config  # 添加这行
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)  # 用于session加密
-ADMIN_PASSWORD = 'hao123'  # 管理页面密码
+# 从环境变量获取管理密码，如果未设置则使用默认值
+ADMIN_PASSWORD = Config.ADMIN_PASSWORD
 
 # 确保数据库和表存在
 init_db()

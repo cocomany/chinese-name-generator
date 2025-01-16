@@ -17,3 +17,6 @@ class Config:
     
     # 音频文件存储路径
     AUDIO_FOLDER = os.path.join('static', 'audio') 
+    
+    # 添加管理密码配置，默认值为 hao123
+    ADMIN_PASSWORD = os.getenv('ADMIN_PASSWORD', 'hao123') 
