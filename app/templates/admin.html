@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>访问记录统计 | Name Generator Stats</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="main-container py-5">
+        {% if not authenticated %}
+        <div class="card">
+            <div class="card-body p-4">
+                <h3 class="text-center mb-4">管理员登录 | Admin Login</h3>
+                <form method="post" action="{{ url_for('main.admin') }}">
+                    <div class="mb-3">
+                        <label class="form-label">密码 | Password</label>
+                        <input type="password" name="password" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">登录 | Login</button>
+                </form>
+            </div>
+        </div>
+        {% else %}
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>管理后台 | Admin Panel</h2>
+            <a href="{{ url_for('main.logout') }}" class="btn btn-outline-danger">
+                退出登录 | Logout
+            </a>
+        </div>
+        
+        <div class="card mb-4">
+            <div class="card-body">
+                <h3 class="mb-4">统计概览 | Statistics Overview</h3>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="border rounded p-3">
+                            <h5>总访问量 | Total Visits</h5>
+                            <h2>{{ stats.total_count }}</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="border rounded p-3">
+                            <h5>24小时内访问 | Last 24h</h5>
+                            <h2>{{ stats.last_24h_count }}</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="border rounded p-3">
+                            <h5>性别比例 | Gender Ratio</h5>
+                            <p>男：{{ stats.gender_stats.get('male', 0) }}</p>
+                            <p>女：{{ stats.gender_stats.get('female', 0) }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h3 class="mb-4">访问记录 | Visit Records</h3>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>时间 | Time</th>
+                                <th>英文名 | English Name</th>
+                                <th>性别 | Gender</th>
+                                <th>生成结果 | Generated Names</th>
+                                <th>IP地址 | IP</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for record in records %}
+                            <tr>
+                                <td>{{ record.created_at }}</td>
+                                <td>{{ record.english_name }}</td>
+                                <td>{{ '男' if record.gender == 'male' else '女' }}</td>
+                                <td>{{ record.generated_names }}</td>
+                                <td>{{ record.ip_address }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html> 
