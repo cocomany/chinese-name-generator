@@ -63,6 +63,32 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// 缓存相关函数
+async function getCachedAudio(url) {
+    try {
+        const cache = await caches.open('audio-cache');
+        const cachedResponse = await cache.match(url);
+        if (cachedResponse) {
+            console.log('从缓存获取音频:', url);
+            return cachedResponse;
+        }
+        return null;
+    } catch (error) {
+        console.error('获取缓存失败:', error);
+        return null;
+    }
+}
+
+async function cacheAudio(url, response) {
+    try {
+        const cache = await caches.open('audio-cache');
+        await cache.put(url, response.clone());
+        console.log('音频已缓存:', url);
+    } catch (error) {
+        console.error('缓存音频失败:', error);
+    }
+}
+
 // 播放音频
 async function playAudio(index) {
     const playBtn = document.querySelector(`#chineseName${index}`).closest('.name-option').querySelector('.btn-outline-primary');
@@ -75,10 +101,19 @@ async function playAudio(index) {
         
         const chineseName = document.getElementById(`chineseName${index}`).textContent;
         const gender = document.querySelector('input[name="gender"]:checked').value;
-        const response = await fetch(`/audio/${encodeURIComponent(chineseName)}?gender=${gender}`);
+        const audioUrl = `/audio/${encodeURIComponent(chineseName)}?gender=${gender}`;
         
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+        // 先检查缓存
+        let response = await getCachedAudio(audioUrl);
+        
+        if (!response) {
+            // 缓存中没有，从服务器获取
+            response = await fetch(audioUrl);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            // 存入缓存
+            await cacheAudio(audioUrl, response);
         }
         
         const audioPath = await response.text();
