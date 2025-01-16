@@ -15,13 +15,53 @@ def generate_chinese_name(gender, preferences, english_name=''):
         print(f"开始生成名字，参数: gender={gender}, preferences={preferences}, english_name={english_name}")
         
         # 构建提示词
-        prompt_parts = ["""请你作为一个专业的中文起名专家，为一个外国人生成3个不同的独特中文名字。
+        prompt_parts = ["""请你作为一个专业的中文起名专家，为一个外国人生成3个特别简单的中文名字。
 
-要求：
-1. 名字发音与英文名相近, 要简洁、寓意好、易记
-3. 名字长度二到四个字
-5. 特别有中国特色，包括但不限于中国的古语，地名，诗词，物件，历史人物，传说故事等
-6. 这3个名字必须完全不同，要有各自的特色！"""]
+### 取名基本原则
+
+1. **发音相近原则**
+- 尽量选择与原名发音相近的汉字
+- 避免使用生僻字，确保读音自然顺口
+
+2. **字义美好原则**
+- 选择含义积极、典雅的汉字
+- 避免负面或不雅的含义
+- 注意文化内涵
+
+3. **约定俗成原则**
+- 有很多名字已经约定俗成，比如"马克"，"大卫"，"奥黛丽"，"李安"等
+- 姓氏尽量选用常见的单字中国姓氏
+
+4. **性别适配原则**
+- 男性名字偏阳刚、气势
+- 女性名字偏优雅、柔美
+
+### 优秀案例：
+
+1. **马克·扎克伯格 (Mark Zuckerberg)**
+- 姓"马"对应"M"音
+- "克"对应"k"音
+- 简单易记，符合中文习惯
+
+2. **大卫·贝克汉姆 (David Beckham)**
+- "贝克汉姆"音译自然
+- 读音朗朗上口
+- 避免了生僻字
+
+3. **史蒂芬·库里 (Stephen Curry)**
+- "史蒂芬"已成为约定俗成的译名
+- "库里"简单好记
+
+4. **奥黛丽·赫本 (Audrey Hepburn)**
+- "奥黛丽"优雅feminine
+- 音译自然，符合原名发音
+
+5. **李安 (Ang Lee)**
+- 完美示范了简洁原则
+- 保留了原有姓氏的发音特点
+- 体现了中文名字的简约美
+                        
+"""]
         
         # 添加可选信息
         if english_name:
@@ -110,7 +150,7 @@ def generate_chinese_name(gender, preferences, english_name=''):
                 raise ValueError(f"第{i+1}个名字缺少必要字段: {', '.join(missing_fields)}")
                 
             # 验证名字长度
-            if not 2 <= len(name_data['chinese_name']) <= 5:
+            if not 2 <= len(name_data['chinese_name']) <= 10:
                 raise ValueError(f"第{i+1}个名字长度不符合要求: {name_data['chinese_name']}")
             
         return result['names']
