@@ -1,4 +1,4 @@
-# 中国名字生成器 (Chinese Name Generator)
+# 中文名字生成器 (Chinese Name Generator)
 
 ## 项目概述 (Project Overview)
 一个帮助外国人取中文名字的网页应用。用户可以输入一些基本信息，系统会通过AI生成合适的中文名字，并提供语音试听功能。所有内容采用中英双语显示。

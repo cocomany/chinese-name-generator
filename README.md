@@ -1,4 +1,4 @@
-# 中国名字生成器 (Chinese Name Generator)
+# 中文名字生成器 (Chinese Name Generator)
 
 一个帮助外国人取中文名字的网页应用。通过AI生成有意义的中文名字，并提供语音试听功能。
 

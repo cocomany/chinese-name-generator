@@ -74,7 +74,7 @@ async function playAudio(index) {
     try {
         // 显示加载状态
         playBtn.disabled = true;
-        playBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 加载中...';
+        playBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
         
         const chineseName = document.getElementById(`chineseName${index}`).textContent;
         const gender = document.querySelector('input[name="gender"]:checked').value;
